@@ -59,11 +59,13 @@ now there should be 2 files in the current directory:
 
 first one is the binary, the other one is the config for it.
 
-the command below needs to be inserted into the config file under the runOnDemand option
+the command below needs to be inserted into the config file under the path section on par with *all*
 
 
 ```
-ffmpeg -nostdin -hide_banner -loglevel error -input_format h264 -f video4linux2 -s 1280x720 -r 20 -i /dev/video0 -f alsa -ac 1 -ar 44100 -i hw:1,0  -map 0:0 -map 1:0 -c:a aac -b:a 128k -c:v copy -r 20 -b:v 2M -f rtsp -rtsp_transport tcp rtsp://127.0.0.1:8554/cam
+cam:
+  runOnInit: ffmpeg -nostdin -hide_banner -loglevel error -input_format h264 -f video4linux2 -s 1280x720 -r 20 -i /dev/video0 -f alsa -ac 1 -ar 44100 -i hw:1,0  -map 0:0 -map 1:0 -c:a aac -b:a 128k -c:v copy -r 20 -b:v 2M -f rtsp -rtsp_transport tcp rtsp://127.0.0.1:$RTSP_PORT/$RTSP_PATH
+  runOnInitRestart: yes
 ```
 
 this will run a ffmmpeg stream against the local port 8554. 
